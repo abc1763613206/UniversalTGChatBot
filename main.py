@@ -392,8 +392,14 @@ def handle_mode(message):
         if checkAdminMode(message) == True:
             if chatid in HandledAdmins:
                 HandledAdmins.remove(chatid)
+                logging.info(str('UnHandled::@{} ({} {}): {}'.format(message.from_user.username,
+                                                              message.from_user.first_name,
+                                                              message.from_user.last_name, message.text)))
                 bot.reply_to(message,'已退出控制模式！')
             else:
+                logging.info(str('Handled::@{} ({} {}): {}'.format(message.from_user.username,
+                                                              message.from_user.first_name,
+                                                              message.from_user.last_name, message.text)))
                 HandledAdmins.append(chatid)
                 bot.reply_to(message,'已成功开启控制模式(机器人重启后状态消失)，机器人将不会根据词库处理消息，回复对应的消息即可处理，关闭请发送相同命令！')
 
@@ -562,7 +568,7 @@ def CheckState(message):
 
 
 
-@bot.message_handler(func=lambda m: True)
+@bot.message_handler(func=lambda m: True,content_types=['audio', 'photo', 'voice', 'video', 'document', 'text', 'location', 'contact', 'sticker'])
 def echo_all(message):
     try:
         userid = str(message.from_user.id)
@@ -571,11 +577,11 @@ def echo_all(message):
             CheckState(message)
             return
         if HandledAdmins != []: # 托管模式
-            print(message.forward_from)
-            print(message.reply_to_message)
-            if message.reply_to_message != None:
-                print('-----------------------')
-                print(message.reply_to_message)
+            #print(message.forward_from)
+            #print(message.reply_to_message)
+            #if message.reply_to_message != None:
+            #    print('-----------------------')
+            #    print(message.reply_to_message)
             if chatid in HandledAdmins: #是管理回复
                 if (message.reply_to_message != None):
                     if (str(message.reply_to_message.from_user.id) == str(chatid)):
@@ -613,6 +619,7 @@ def echo_all(message):
 
         if message.content_type != 'text':
             bot.reply_to(message,text_not_supported)
+            return
         logging.info(str('Chat::@{} ({} {}): {}'.format(message.from_user.username, message.from_user.first_name, message.from_user.last_name, message.text)))
         bot.reply_to(message,Process(message.text))
 
