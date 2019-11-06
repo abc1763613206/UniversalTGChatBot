@@ -50,7 +50,7 @@ if config.USE_PROXY:
     apihelper.proxy = config.HTTP_PROXY
 #telebot.logger.setLevel(logging.DEBUG)
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=config.LOG_LEVEL)
 
 
 f = open('data.json','r',encoding='utf-8',errors='ignore')
@@ -207,10 +207,13 @@ def rm_jsadmin(message):
 
 
 def randText():
-    ifhitokoto = random.randint(0,5) # 随机使用一言接口
-    if ifhitokoto == 0:
-        r = requests.get('https://v1.hitokoto.cn/?encode=text')
-        return r.text
+    if config.ifHITOKOTO == True:
+        ifhitokoto = random.randint(0, 5)  # 随机使用一言接口
+        if ifhitokoto == 0:
+            r = requests.get('https://v1.hitokoto.cn/?encode=text')
+            return r.text
+        else:
+            return random.choice(texts)
     else:
         return random.choice(texts)
 
@@ -254,7 +257,7 @@ def demo_mode(message):
         rid = getReportID()
         traceback.print_exc()
         logging.error(str(rid + '::' + str(repr(e)) + '\n' + traceback.format_exc()))
-        bot.send_message(message.from_user.id,'抱歉，我出现错误，识别ID为 '+rid+'\n\n信息如下：\n'+str(repr(e))+'\n\n请将这条信息 Forward 给 @abc1763613206 中所列的用户 进行处理！')
+        # bot.send_message(message.from_user.id,'抱歉，我出现错误，识别ID为 '+rid+'\n\n信息如下：\n'+str(repr(e))+'\n\n请将这条信息 Forward 给 @abc1763613206 中所列的用户 进行处理！')
 
 
 @bot.message_handler(commands=['save','sv'])
@@ -269,7 +272,7 @@ def save_data(message):
         rid = getReportID()
         traceback.print_exc()
         logging.error(str(rid + '::' + str(repr(e)) + '\n' + traceback.format_exc()))
-        bot.send_message(message.from_user.id,'抱歉，我出现错误，识别ID为 '+rid+'\n\n信息如下：\n'+str(repr(e))+'\n\n请将这条信息 Forward 给 @abc1763613206 中所列的用户 进行处理！')
+        #bot.send_message(message.from_user.id,'抱歉，我出现错误，识别ID为 '+rid+'\n\n信息如下：\n'+str(repr(e))+'\n\n请将这条信息 Forward 给 @abc1763613206 中所列的用户 进行处理！')
 
 @bot.message_handler(commands=['setquotes','sq'])
 def set_quotes(message):
@@ -287,7 +290,7 @@ def set_quotes(message):
         rid = getReportID()
         traceback.print_exc()
         logging.error(str(rid + '::' + str(repr(e)) + '\n' + traceback.format_exc()))
-        bot.send_message(message.from_user.id,'抱歉，我出现错误，识别ID为 '+rid+'\n\n信息如下：\n'+str(repr(e))+'\n\n请将这条信息 Forward 给 @abc1763613206 中所列的用户 进行处理！')
+        #bot.send_message(message.from_user.id,'抱歉，我出现错误，识别ID为 '+rid+'\n\n信息如下：\n'+str(repr(e))+'\n\n请将这条信息 Forward 给 @abc1763613206 中所列的用户 进行处理！')
 
 @bot.message_handler(commands=['settexts','st'])
 def set_texts(message):
@@ -305,7 +308,7 @@ def set_texts(message):
         rid = getReportID()
         traceback.print_exc()
         logging.error(str(rid + '::' + str(repr(e)) + '\n' + traceback.format_exc()))
-        bot.send_message(message.from_user.id,'抱歉，我出现错误，识别ID为 '+rid+'\n\n信息如下：\n'+str(repr(e))+'\n\n请将这条信息 Forward 给 @abc1763613206 中所列的用户 进行处理！')
+        #bot.send_message(message.from_user.id,'抱歉，我出现错误，识别ID为 '+rid+'\n\n信息如下：\n'+str(repr(e))+'\n\n请将这条信息 Forward 给 @abc1763613206 中所列的用户 进行处理！')
 
 @bot.message_handler(commands=['rmquotes','rq'])
 def rm_quotes(message):
@@ -330,7 +333,7 @@ def rm_quotes(message):
         rid = getReportID()
         traceback.print_exc()
         logging.error(str(rid + '::' + str(repr(e)) + '\n' + traceback.format_exc()))
-        bot.send_message(message.from_user.id,'抱歉，我出现错误，识别ID为 '+rid+'\n\n信息如下：\n'+str(repr(e))+'\n\n请将这条信息 Forward 给 @abc1763613206 中所列的用户 进行处理！')
+        #bot.send_message(message.from_user.id,'抱歉，我出现错误，识别ID为 '+rid+'\n\n信息如下：\n'+str(repr(e))+'\n\n请将这条信息 Forward 给 @abc1763613206 中所列的用户 进行处理！')
 
 
 @bot.message_handler(commands=['rmtexts','rt'])
@@ -355,8 +358,7 @@ def rm_texts(message):
         rid = getReportID()
         traceback.print_exc()
         logging.error(str(rid + '::' + str(repr(e)) + '\n' + traceback.format_exc()))
-        bot.send_message(message.from_user.id, '抱歉，我出现错误，识别ID为 ' + rid + '\n\n信息如下：\n' + str(
-            repr(e)) + '\n\n请将这条信息 Forward 给 @abc1763613206 中所列的用户 进行处理！')
+        #bot.send_message(message.from_user.id, '抱歉，我出现错误，识别ID为 ' + rid + '\n\n信息如下：\n' + str(repr(e)) + '\n\n请将这条信息 Forward 给 @abc1763613206 中所列的用户 进行处理！')
 
 @bot.message_handler(commands=['setother','so'])
 def set_others(message):
@@ -380,8 +382,7 @@ def set_others(message):
         rid = getReportID()
         traceback.print_exc()
         logging.error(str(rid + '::' + str(repr(e)) + '\n' + traceback.format_exc()))
-        bot.send_message(message.from_user.id, '抱歉，我出现错误，识别ID为 ' + rid + '\n\n信息如下：\n' + str(
-            repr(e)) + '\n\n请将这条信息 Forward 给 @abc1763613206 中所列的用户 进行处理！')
+        #bot.send_message(message.from_user.id, '抱歉，我出现错误，识别ID为 ' + rid + '\n\n信息如下：\n' + str(repr(e)) + '\n\n请将这条信息 Forward 给 @abc1763613206 中所列的用户 进行处理！')
 
 
 @bot.message_handler(commands=['handle'])
@@ -409,8 +410,7 @@ def handle_mode(message):
         rid = getReportID()
         traceback.print_exc()
         logging.error(str(rid + '::' + str(repr(e)) + '\n' + traceback.format_exc()))
-        bot.send_message(message.from_user.id, '抱歉，我出现错误，识别ID为 ' + rid + '\n\n信息如下：\n' + str(
-            repr(e)) + '\n\n请将这条信息 Forward 给 @abc1763613206 中所列的用户 进行处理！')
+        #bot.send_message(message.from_user.id, '抱歉，我出现错误，识别ID为 ' + rid + '\n\n信息如下：\n' + str(repr(e)) + '\n\n请将这条信息 Forward 给 @abc1763613206 中所列的用户 进行处理！')
 
 @bot.message_handler(commands=['whoami'])
 def retID(message):
@@ -430,8 +430,7 @@ def retID(message):
         rid = getReportID()
         traceback.print_exc()
         logging.error(str(rid + '::' + str(repr(e)) + '\n' + traceback.format_exc()))
-        bot.send_message(message.from_user.id, '抱歉，我出现错误，识别ID为 ' + rid + '\n\n信息如下：\n' + str(
-            repr(e)) + '\n\n请将这条信息 Forward 给 @abc1763613206 中所列的用户 进行处理！')
+        #bot.send_message(message.from_user.id, '抱歉，我出现错误，识别ID为 ' + rid + '\n\n信息如下：\n' + str(repr(e)) + '\n\n请将这条信息 Forward 给 @abc1763613206 中所列的用户 进行处理！')
 
 
 def CheckState(message):
@@ -562,8 +561,7 @@ def CheckState(message):
         rid = getReportID()
         traceback.print_exc()
         logging.error(str(rid + '::' + str(repr(e)) + '\n' + traceback.format_exc()))
-        bot.send_message(message.from_user.id, '抱歉，我出现错误，识别ID为 ' + rid + '\n\n信息如下：\n' + str(
-            repr(e)) + '\n\n请将这条信息 Forward 给 @abc1763613206 中所列的用户 进行处理！')
+        #bot.send_message(message.from_user.id, '抱歉，我出现错误，识别ID为 ' + rid + '\n\n信息如下：\n' + str(repr(e)) + '\n\n请将这条信息 Forward 给 @abc1763613206 中所列的用户 进行处理！')
 
 
 
@@ -628,7 +626,7 @@ def echo_all(message):
         rid = getReportID()
         traceback.print_exc()
         logging.error(str(rid + '::' + str(repr(e)) + '\n' + traceback.format_exc()))
-        bot.send_message(message.from_user.id,'抱歉，我出现错误，识别ID为 '+rid+'\n\n信息如下：\n'+str(repr(e))+'\n\n请将这条信息 Forward 给 @abc1763613206 中所列的用户 进行处理！')
+        #bot.send_message(message.from_user.id,'抱歉，我出现错误，识别ID为 '+rid+'\n\n信息如下：\n'+str(repr(e))+'\n\n请将这条信息 Forward 给 @abc1763613206 中所列的用户 进行处理！')
 
 
 
