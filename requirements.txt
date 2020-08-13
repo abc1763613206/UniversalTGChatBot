@@ -1,4 +1,4 @@
 requests>=2.22.0
-sentry_sdk==0.13.1
+sentry_sdk==0.16.4
 jieba>=0.39
 pyTelegramBotAPI>=3.6.6
